@@ -90,4 +90,12 @@
 		reg-shift = <2>;
 		status = "disabled";
 	};
+
+	can2: can@fea70000 {
+		compatible = "rockchip,rk-can";
+		reg = <0xfea70000 0x1000>;
+		interrupts = <GIC_SPI 343 IRQ_TYPE_LEVEL IRQ_DEFAULT_PRIORITY>;
+		clock-frequency = <100000000>;
+		status = "disabled";
+	};
 };

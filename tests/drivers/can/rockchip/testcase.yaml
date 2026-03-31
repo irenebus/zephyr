@@ -1,0 +1,56 @@
+common:
+  tags: drivers can rockchip
+  timeout: 60
+
+tests:
+  driver.can.rockchip.init:
+    filter: dt_compat_enabled("rockchip,rk-can")
+    platform_skip:
+      - nsim
+      - qemu_riscv32_virt
+    extra_configs:
+      - CONFIG_CAN=y
+      - CONFIG_CAN_ROCKCHIP=y
+      - CONFIG_CAN_LOG_LEVEL_DBG=y
+
+  driver.can.rockchip.mode_timing:
+    filter: dt_compat_enabled("rockchip,rk-can")
+    platform_skip:
+      - nsim
+      - qemu_riscv32_virt
+    extra_configs:
+      - CONFIG_CAN=y
+      - CONFIG_CAN_ROCKCHIP=y
+      - CONFIG_CAN_LOG_LEVEL_DBG=y
+
+  driver.can.rockchip.tx_rx:
+    filter: dt_compat_enabled("rockchip,rk-can")
+    platform_skip:
+      - nsim
+      - qemu_riscv32_virt
+    extra_configs:
+      - CONFIG_CAN=y
+      - CONFIG_CAN_ROCKCHIP=y
+      - CONFIG_CAN_LOG_LEVEL_DBG=y
+
+  driver.can.rockchip.filtering:
+    filter: dt_compat_enabled("rockchip,rk-can")
+    platform_skip:
+      - nsim
+      - qemu_riscv32_virt
+    extra_configs:
+      - CONFIG_CAN=y
+      - CONFIG_CAN_ROCKCHIP=y
+      - CONFIG_CAN_ROCKCHIP_MAX_FILTERS=8
+      - CONFIG_CAN_LOG_LEVEL_DBG=y
+
+  driver.can.rockchip.interrupt_state:
+    filter: dt_compat_enabled("rockchip,rk-can")
+    platform_skip:
+      - nsim
+      - qemu_riscv32_virt
+    extra_configs:
+      - CONFIG_CAN=y
+      - CONFIG_CAN_ROCKCHIP=y
+      - CONFIG_CAN_MANUAL_RECOVERY_MODE=y
+      - CONFIG_CAN_LOG_LEVEL_DBG=y

@@ -1,0 +1,154 @@
+Bao Hypervisor
+*** Booting Zephyr OS build v4.3.0-9359-g56f8a30c7fd7 ***
+Running TESTSUITE rockchip_can_filtering
+===================================================================
+START - test_add_filter_exceeds_capacity
+ PASS - test_add_filter_exceeds_capacity in 0.001 seconds
+===================================================================
+START - test_add_filter_null_callback
+ PASS - test_add_filter_null_callback in 0.001 seconds
+===================================================================
+START - test_add_filter_null_filter
+ PASS - test_add_filter_null_filter in 0.001 seconds
+===================================================================
+START - test_add_multiple_filters
+ PASS - test_add_multiple_filters in 0.001 seconds
+===================================================================
+START - test_add_rx_filter_basic
+ PASS - test_add_rx_filter_basic in 0.001 seconds
+===================================================================
+START - test_fill_filter_table
+ PASS - test_fill_filter_table in 0.001 seconds
+===================================================================
+START - test_filter_extended_frame
+ PASS - test_filter_extended_frame in 0.001 seconds
+===================================================================
+START - test_filter_standard_frame
+ PASS - test_filter_standard_frame in 0.001 seconds
+===================================================================
+START - test_filter_with_mask
+ PASS - test_filter_with_mask in 0.001 seconds
+===================================================================
+START - test_filter_with_user_data
+ PASS - test_filter_with_user_data in 0.001 seconds
+===================================================================
+START - test_remove_filter
+ PASS - test_remove_filter in 0.001 seconds
+===================================================================
+START - test_remove_filter_invalid_id
+ PASS - test_remove_filter_invalid_id in 0.001 seconds
+===================================================================
+TESTSUITE rockchip_can_filtering succeeded
+Running TESTSUITE rockchip_can_init
+===================================================================
+START - test_device_ready
+ PASS - test_device_ready in 0.001 seconds
+===================================================================
+START - test_get_capabilities
+
+    Assertion failed at WEST_TOPDIR/zephyr/tests/drivers/can/rockchip/src/init_test.c:34: rockchip_can_init_test_get_capabilities: (capabilities & CAN_MODE_NORMAL is false)
+NORMAL mode not supported
+ FAIL - test_get_capabilities in 0.002 seconds
+===================================================================
+START - test_get_core_clock
+ PASS - test_get_core_clock in 0.001 seconds
+===================================================================
+START - test_get_max_filters
+ PASS - test_get_max_filters in 0.001 seconds
+===================================================================
+START - test_initial_state
+ PASS - test_initial_state in 0.001 seconds
+===================================================================
+START - test_set_mode_normal
+ PASS - test_set_mode_normal in 0.001 seconds
+===================================================================
+TESTSUITE rockchip_can_init failed.
+Running TESTSUITE rockchip_can_interrupt_state
+===================================================================
+START - test_get_error_counters
+ PASS - test_get_error_counters in 0.001 seconds
+===================================================================
+START - test_get_state
+ PASS - test_get_state in 0.001 seconds
+===================================================================
+START - test_listenonly_mode_start
+ PASS - test_listenonly_mode_start in 0.001 seconds
+===================================================================
+START - test_loopback_mode_start
+ PASS - test_loopback_mode_start in 0.001 seconds
+===================================================================
+START - test_manual_recovery_mode
+ PASS - test_manual_recovery_mode in 0.001 seconds
+===================================================================
+START - test_oneshot_mode_start
+ PASS - test_oneshot_mode_start in 0.001 seconds
+===================================================================
+START - test_recover_device
+ PASS - test_recover_device in 0.001 seconds
+===================================================================
+START - test_set_state_change_callback
+ PASS - test_set_state_change_callback in 0.001 seconds
+===================================================================
+START - test_state_after_start
+ PASS - test_state_after_start in 0.001 seconds
+===================================================================
+START - test_state_after_stop
+ PASS - test_state_after_stop in 0.001 seconds
+===================================================================
+START - test_state_callback_on_start
+ PASS - test_state_callback_on_start in 0.011 seconds
+===================================================================
+START - test_state_callback_removal
+ PASS - test_state_callback_removal in 0.001 seconds
+===================================================================
+START - test_state_transitions
+ PASS - test_state_transitions in 0.001 seconds
+===================================================================
+TESTSUITE rockchip_can_interrupt_state succeeded
+Running TESTSUITE rockchip_can_mode_timing
+===================================================================
+START - test_set_mode_after_start_fails
+ PASS - test_set_mode_after_start_fails in 0.001 seconds
+===================================================================
+START - test_set_mode_listenonly
+ PASS - test_set_mode_listenonly in 0.001 seconds
+===================================================================
+START - test_set_mode_loopback
+ PASS - test_set_mode_loopback in 0.001 seconds
+===================================================================
+START - test_set_mode_normal
+ PASS - test_set_mode_normal in 0.001 seconds
+===================================================================
+START - test_set_mode_one_shot
+ PASS - test_set_mode_one_shot in 0.001 seconds
+===================================================================
+START - test_set_timing_after_start_fails
+ PASS - test_set_timing_after_start_fails in 0.001 seconds
+===================================================================
+START - test_set_timing_max_values
+ PASS - test_set_timing_max_values in 0.001 seconds
+===================================================================
+START - test_set_timing_min_values
+ PASS - test_set_timing_min_values in 0.001 seconds
+===================================================================
+START - test_set_timing_null_pointer
+E: ELR_ELn: 0x00000000020076c0
+E: ESR_ELn: 0x0000000096000006
+E:   EC:  0x25 (Data Abort taken without a change in Exception level)
+E:   IL:  0x1
+E:   ISS: 0x6
+E: FAR_ELn: 0x0000000000000000
+E: TPIDRRO: 0x0100000002025f90
+E: x0:  0x00000000020100e0  x1:  0x0000000000000000
+E: x2:  0x0000000000000000  x3:  0x00000000020120d8
+E: x4:  0x0000000002012298  x5:  0x00000000020128f8
+E: x6:  0x0000000000000000  x7:  0x00000000020256a0
+E: x8:  0x0000000000000000  x9:  0x00000000020062c0
+E: x10: 0x00000000020679e0  x11: 0x0000000002004208
+E: x12: 0x0000000002067a38  x13: 0x00000000020256a0
+E: x14: 0x0000000002067930  x15: 0x00000000020256a0
+E: x16: 0x0000000002025ff0  x17: 0x0000000002025f90
+E: x18: 0x0000000000000040  lr:  0x00000000020018e8
+E: >>> ZEPHYR FATAL ERROR 0: CPU exception on CPU 0
+E: Current thread: 0x2025000 (test_set_timing_null_pointer)
+E: Halting system

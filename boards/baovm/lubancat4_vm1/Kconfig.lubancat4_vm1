@@ -1,0 +1,5 @@
+#  SPDX-License-Identifier: Apache-2.0
+#  Copyright 2026 haonan yu <yowaii47@gmail.com>
+
+config BOARD_LUBANCAT4_VM1
+    select SOC_RK3588

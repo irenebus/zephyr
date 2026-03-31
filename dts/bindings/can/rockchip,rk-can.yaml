@@ -1,0 +1,26 @@
+# SPDX-License-Identifier: Apache-2.0
+
+description: Rockchip CAN controller
+
+compatible: "rockchip,rk-can"
+
+include: [can-controller.yaml]
+
+properties:
+  reg:
+    required: true
+
+  interrupts:
+    required: true
+
+  clock-frequency:
+    type: int
+    default: 80000000
+    description: |
+      Input clock frequency in Hz used by CAN bit timing calculations.
+
+  max-filters:
+    type: int
+    description: |
+      Maximum number of concurrently active RX filters supported by this
+      controller instance.

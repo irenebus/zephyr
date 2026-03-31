@@ -1,0 +1,33 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ * Copyright 2026 haonan yu <yowaii47@gmail.com>
+ */
+
+/dts-v1/;
+
+#include <rockchip/rk3588.dtsi>
+#include <common/mem.h>
+
+/ {
+    model = "Baovm Lubancat4 VM1";
+    compatible = "baovm,lubancat4_vm1", "rockchip,rk3588";
+    
+    chosen {
+        zephyr,console = &uart2;
+        zephyr,shell-uart = &uart2;
+        zephyr,sram = &dram0;
+    };
+
+    dram0: memory@2000000 {
+        compatible = "mmio-sram";
+        reg = <0x2000000 DT_SIZE_M(128)>;
+    };
+};
+
+&uart2 {
+    status = "okay";
+};
+
+&can2 {
+    status = "okay";
+};

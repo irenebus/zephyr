@@ -1,0 +1,6 @@
+board:
+  name: lubancat4_vm1
+  full_name: Baovm Lubancat4 VM1 based on Rockchip RK3588S
+  vendor: baovm
+  socs:
+  - name: rk3588
