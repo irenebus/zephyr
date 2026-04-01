@@ -16,25 +16,45 @@
 #define ROCKCHIP_CAN_MIN_BITRATE 10000U
 #define ROCKCHIP_CAN_MAX_BITRATE 1000000U
 
-/* Register offsets (TRM chapter 29.4.2). */
-#define RKCAN_MODE                  0x0000
-#define RKCAN_CMD                   0x0004
-#define RKCAN_STATE                 0x0008
-#define RKCAN_INT                   0x000C
-#define RKCAN_INT_MASK              0x0010
-#define RKCAN_BITTIMING             0x0018
-#define RKCAN_RXERRORCNT            0x0034
-#define RKCAN_TXERRORCNT            0x0038
-#define RKCAN_IDCODE                0x003C
-#define RKCAN_IDMASK                0x0040
-#define RKCAN_TXFRAMEINFO           0x0050
-#define RKCAN_TXID                  0x0054
-#define RKCAN_TXDATA0               0x0058
-#define RKCAN_TXDATA1               0x005C
-#define RKCAN_RXFRAMEINFO           0x0060
-#define RKCAN_RXID                  0x0064
-#define RKCAN_RXDATA0               0x0068
-#define RKCAN_RXDATA1               0x006C
+/* Register map (TRM chapter 29.4.2). */
+struct rkcan_tx_buf_regs {
+	uint32_t frame_info;
+	uint32_t id;
+	uint32_t data0;
+	uint32_t data1;
+};
+
+struct rkcan_filter_regs {
+	uint32_t id_code;
+	uint32_t id_mask;
+};
+
+struct rkcan_regs {
+	uint32_t mode;                 /* 0x0000 */
+	uint32_t cmd;                  /* 0x0004 */
+	uint32_t state;                /* 0x0008 */
+	uint32_t int_status;           /* 0x000c */
+	uint32_t int_mask;             /* 0x0010 */
+	uint32_t reserved_0014;        /* 0x0014 */
+	uint32_t bittiming;            /* 0x0018 */
+	uint32_t reserved_001c_0030[6]; /* 0x001c - 0x0030 */
+	uint32_t rx_error_cnt;         /* 0x0034 */
+	uint32_t tx_error_cnt;         /* 0x0038 */
+	struct rkcan_filter_regs filter0; /* 0x003c - 0x0043 */
+	uint32_t reserved_0044_004c[3]; /* 0x0044 - 0x004c */
+	struct rkcan_tx_buf_regs tx_buf0; /* 0x0050 - 0x005c */
+	uint32_t rx_frame_info;        /* 0x0060 */
+	uint32_t rx_id;                /* 0x0064 */
+	uint32_t rx_data0;             /* 0x0068 */
+	uint32_t rx_data1;             /* 0x006c */
+	struct rkcan_tx_buf_regs tx_buf1; /* 0x0070 - 0x007c */
+	uint32_t reserved_0080_0118[39]; /* 0x0080 - 0x0118 */
+	uint32_t afr_ctrl;             /* 0x011c */
+	struct rkcan_filter_regs filters[5]; /* 0x0120 - 0x0147 */
+};
+
+
+
 
 /* CAN_MODE bits. */
 #define RKCAN_MODE_AUTO_BUS_ON      BIT(11)
@@ -83,6 +103,16 @@
 #define RKCAN_FRAMEINFO_RTR         BIT(6)
 #define RKCAN_FRAMEINFO_DLC_MASK    GENMASK(3, 0)
 
-#define RKCAN_TX_FIFO_DEPTH         2U
+/* CAN_AFR_CTRL bits (controls filter pairs 1..5 at 0x011c). */
+#define RKCAN_AFR_CTRL_UAF1         BIT(0)
+#define RKCAN_AFR_CTRL_UAF2         BIT(1)
+#define RKCAN_AFR_CTRL_UAF3         BIT(2)
+#define RKCAN_AFR_CTRL_UAF4         BIT(3)
+#define RKCAN_AFR_CTRL_UAF5         BIT(4)
+#define RKCAN_AFR_CTRL_UAF_MASK     GENMASK(4, 0)
+#define RKCAN_AFR_CTRL_UAF(filter_idx) BIT((filter_idx) - 1U)
+
+#define RKCAN_TX_BUFFERS            2U
+#define RKCAN_FILTER_BANKS          6U
 
 #endif /* ZEPHYR_DRIVERS_CAN_CAN_ROCKCHIP_PRIV_H_ */
