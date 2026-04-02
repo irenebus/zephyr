@@ -250,6 +250,7 @@ static uint32_t can_rockchip_mode_to_reg(can_mode_t mode)
 
 	if ((mode & CAN_MODE_LOOPBACK) != 0U) {
 		mode_reg |= RKCAN_MODE_LOOPBACK;
+		mode_reg |= RKCAN_MODE_SILENT;
 	}
 
 	if ((mode & CAN_MODE_LISTENONLY) != 0U) {
@@ -263,6 +264,11 @@ static uint32_t can_rockchip_mode_to_reg(can_mode_t mode)
 	/* Loopback/listen-only modes require self-test ACK behavior. */
 	if ((mode_reg & (RKCAN_MODE_LOOPBACK | RKCAN_MODE_SILENT)) != 0U) {
 		mode_reg |= RKCAN_MODE_SELF_TEST;
+	}
+
+	/* Loopback mode: enable self-receive path (RXSTX). */
+	if ((mode_reg & RKCAN_MODE_LOOPBACK) != 0U) {
+		mode_reg |= RKCAN_MODE_RXSTX;
 	}
 
 	if (IS_ENABLED(CONFIG_CAN_MANUAL_RECOVERY_MODE) &&
@@ -465,7 +471,7 @@ static int can_rockchip_start(const struct device *dev)
 	rkcan_write_reg(&regs->int_mask,
 		   ~(RKCAN_INT_RX_FINISH | RKCAN_INT_TX_FINISH |
 		     RKCAN_INT_ERROR_WARNING | RKCAN_INT_PASSIVE_ERROR |
-		     RKCAN_INT_ARB_FAIL | RKCAN_INT_ERROR |
+		     RKCAN_INT_ERROR | RKCAN_INT_ARB_FAIL |
 		     RKCAN_INT_BUS_OFF | RKCAN_INT_BUS_OFF_RECOVERY) & 0x7fffU);
 
 	data->state = CAN_STATE_ERROR_ACTIVE;

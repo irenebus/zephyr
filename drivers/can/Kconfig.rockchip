@@ -14,8 +14,8 @@ if CAN_ROCKCHIP
 
 config CAN_ROCKCHIP_MAX_FILTERS
 	int "Maximum number of active RX filters"
-	default 16
-	range 1 64
+	default 6
+	range 1 6
 	help
 	  Maximum number of concurrently active RX filters for each Rockchip
 	  CAN instance. This can be overridden per instance using devicetree
