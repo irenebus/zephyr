@@ -27,7 +27,3 @@
 &uart2 {
     status = "okay";
 };
-
-&can2 {
-    status = "okay";
-};

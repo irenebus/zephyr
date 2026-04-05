@@ -32,12 +32,6 @@ static const struct arm_mmu_region mmu_regions[] = {
                   DT_REG_SIZE(DT_NODELABEL(uart2)), 
                   MT_DEVICE_nGnRnE | MT_P_RW_U_NA | MT_DEFAULT_SECURE_STATE),
 
-    /*CAN2 (Control Area Network) */
-    MMU_REGION_FLAT_ENTRY("CAN2", 
-                  DT_REG_ADDR(DT_NODELABEL(can2)), 
-                  DT_REG_SIZE(DT_NODELABEL(can2)), 
-                  MT_DEVICE_nGnRnE | MT_P_RW_U_NA | MT_DEFAULT_SECURE_STATE),
-
 };
 
 const struct arm_mmu_config mmu_config = {
