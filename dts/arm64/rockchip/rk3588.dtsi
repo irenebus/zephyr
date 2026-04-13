@@ -6,6 +6,7 @@
 #include <mem.h>
 #include <arm64/armv8-a.dtsi>
 #include <zephyr/dt-bindings/interrupt-controller/arm-gic.h>
+#include <zephyr/dt-bindings/pinctrl/rockchip-rk3588-pinctrl.h>
 
 / {
 	#address-cells = <1>;
@@ -82,12 +83,49 @@
 		status = "disabled";
 	};
 
-	uart3: serial@feb60000 {
-		compatible = "rockchip,rk3588-uart", "ns16550";
-		reg = <0xfeb60000 0x100>;
-		interrupts = <GIC_SPI 334 IRQ_TYPE_EDGE IRQ_DEFAULT_PRIORITY>;
-		clock-frequency = <24000000>;
-		reg-shift = <2>;
+	spi0: spi@feb00000 {
+		compatible = "rockchip,rk3588-spi";
+		reg = <0xfeb00000 0x1000>;
+		interrupts = <GIC_SPI 326 IRQ_TYPE_LEVEL IRQ_DEFAULT_PRIORITY>;
+		clock-frequency = <200000000>;
+		num-cs = <2>;
+		#address-cells = <1>;
+		#size-cells = <0>;
 		status = "disabled";
 	};
+
+	bus_ioc: syscon@fd5f8000 {
+		compatible = "syscon";
+		reg = <0xfd5f8000 0x2000>;
+	};
+
+	pinctrl: pin-controller {
+		compatible = "rockchip,rk3588-pinctrl";
+		rockchip,grf = <&bus_ioc>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		gpio1: gpio@fec20000 {
+			compatible = "rockchip,rk3588-gpio";
+			reg = <0xfec20000 0x100>;
+			rockchip,bank = <1>;
+			interrupts = <GIC_SPI 278 IRQ_TYPE_LEVEL IRQ_DEFAULT_PRIORITY>;
+			gpio-controller;
+			#gpio-cells = <2>;
+			ngpios = <32>;
+		};
+
+		gpio3: gpio@fec40000 {
+			compatible = "rockchip,rk3588-gpio";
+			reg = <0xfec40000 0x100>;
+			rockchip,bank = <3>;
+			interrupts = <GIC_SPI 280 IRQ_TYPE_LEVEL IRQ_DEFAULT_PRIORITY>;
+			gpio-controller;
+			#gpio-cells = <2>;
+			ngpios = <32>;
+		};
+	};
 };
+
+#include "rk3588-pinctrl.dtsi"

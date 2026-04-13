@@ -1,0 +1,7 @@
+# SPDX-License-Identifier: Apache-2.0
+
+config PINCTRL_ROCKCHIP
+	bool "Rockchip RK3588 pinctrl driver"
+	depends on DT_HAS_ROCKCHIP_RK3588_PINCTRL_ENABLED
+	help
+	  Enable support for the Rockchip RK3588 pin control driver.

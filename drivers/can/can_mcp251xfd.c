@@ -394,7 +394,7 @@ static int mcp251xfd_set_mode(const struct device *dev, can_mode_t mode)
 	}
 
 	if ((mode & CAN_MODE_LOOPBACK) != 0) {
-		dev_data->next_mcp251xfd_mode = MCP251XFD_REG_CON_MODE_EXT_LOOPBACK;
+		dev_data->next_mcp251xfd_mode = MCP251XFD_REG_CON_MODE_INT_LOOPBACK;
 	}
 
 	dev_data->common.mode = mode;

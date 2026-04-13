@@ -1,0 +1,23 @@
+# SPDX-License-Identifier: Apache-2.0
+
+description: Rockchip RK3588 SPI controller
+
+compatible: "rockchip,rk3588-spi"
+
+include: [spi-controller.yaml, pinctrl-device.yaml]
+
+properties:
+  reg:
+    required: true
+
+  interrupts:
+    required: true
+
+  clock-frequency:
+    type: int
+    description: Input clock frequency for the SPI controller in Hz.
+
+  num-cs:
+    type: int
+    default: 2
+    description: Number of hardware chip select outputs supported by the controller.

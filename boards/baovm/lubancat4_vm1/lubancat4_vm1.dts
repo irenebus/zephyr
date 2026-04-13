@@ -7,6 +7,8 @@
 
 #include <rockchip/rk3588.dtsi>
 #include <common/mem.h>
+#include <zephyr/dt-bindings/gpio/gpio.h>
+#include <zephyr/dt-bindings/pinctrl/rockchip-rk3588-pinctrl.h>
 
 / {
     model = "Baovm Lubancat4 VM1";
@@ -16,6 +18,7 @@
         zephyr,console = &uart2;
         zephyr,shell-uart = &uart2;
         zephyr,sram = &dram0;
+        zephyr,canbus = &mcp2518fd0;
     };
 
     dram0: memory@2000000 {
@@ -26,4 +29,27 @@
 
 &uart2 {
     status = "okay";
+};
+
+&gpio1 {
+    status = "okay";
+};
+
+&gpio3 {
+    status = "okay";
+};
+
+&spi0 {
+    pinctrl-0 = <&spi0_m2>;
+    pinctrl-names = "default";
+    status = "okay";
+
+    mcp2518fd0: can@0 {
+        compatible = "microchip,mcp251xfd";
+        reg = <0>;
+        spi-max-frequency = <10000000>;
+        int-gpios = <&gpio1 RK_PB0 GPIO_ACTIVE_LOW>;
+        osc-freq = <20000000>;
+        status = "disabled";
+    };
 };

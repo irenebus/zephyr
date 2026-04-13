@@ -1,0 +1,35 @@
+description: Rockchip RK3588 pin controller
+
+compatible: "rockchip,rk3588-pinctrl"
+
+include: base.yaml
+
+properties:
+  rockchip,grf:
+    required: true
+    type: phandle
+    description: |
+      phandle to the GRF (General Register Files) node
+
+child-binding:
+  description: Pin configuration state nodes.
+  child-binding:
+    description: Pin configuration group.
+    include:
+      - name: pincfg-node.yaml
+        property-allowlist:
+          - bias-pull-up
+          - bias-pull-down
+          - input-enable
+    properties:
+      pinmux:
+        required: true
+        type: array
+        description: |
+          pinmux configuration
+      drive-strength:
+        type: int
+        enum: [0, 4, 2, 6, 1, 5]
+        description: |
+          drive strength, corresponding drive strengths [100, 66, 50, 33, 25, 20] in ohms
+        

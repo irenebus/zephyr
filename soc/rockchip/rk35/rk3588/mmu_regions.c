@@ -32,6 +32,30 @@ static const struct arm_mmu_region mmu_regions[] = {
                   DT_REG_SIZE(DT_NODELABEL(uart2)), 
                   MT_DEVICE_nGnRnE | MT_P_RW_U_NA | MT_DEFAULT_SECURE_STATE),
 
+    /*SPI0 Controller */
+    MMU_REGION_FLAT_ENTRY("SPI0",
+                  DT_REG_ADDR(DT_NODELABEL(spi0)),
+                  DT_REG_SIZE(DT_NODELABEL(spi0)),
+                  MT_DEVICE_nGnRnE | MT_P_RW_U_NA | MT_DEFAULT_SECURE_STATE),
+
+    /*BUS IOC (GRF/SYSCON for pinctrl) */
+    MMU_REGION_FLAT_ENTRY("BUS_IOC",
+                  DT_REG_ADDR(DT_NODELABEL(bus_ioc)),
+                  DT_REG_SIZE(DT_NODELABEL(bus_ioc)),
+                  MT_DEVICE_nGnRnE | MT_P_RW_U_NA | MT_DEFAULT_SECURE_STATE),
+
+    /*GPIO1 Controller */
+    MMU_REGION_FLAT_ENTRY("GPIO1",
+                  DT_REG_ADDR(DT_NODELABEL(gpio1)),
+                  DT_REG_SIZE(DT_NODELABEL(gpio1)),
+                  MT_DEVICE_nGnRnE | MT_P_RW_U_NA | MT_DEFAULT_SECURE_STATE),
+                  
+    /*GPIO3 Controller */
+    MMU_REGION_FLAT_ENTRY("GPIO3",
+                  DT_REG_ADDR(DT_NODELABEL(gpio3)),
+                  DT_REG_SIZE(DT_NODELABEL(gpio3)),
+                  MT_DEVICE_nGnRnE | MT_P_RW_U_NA | MT_DEFAULT_SECURE_STATE),
+
 };
 
 const struct arm_mmu_config mmu_config = {

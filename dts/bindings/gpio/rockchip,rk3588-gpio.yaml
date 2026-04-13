@@ -1,0 +1,27 @@
+# SPDX-License-Identifier: Apache-2.0
+
+description: Rockchip RK3588 GPIO controller
+
+compatible: "rockchip,rk3588-gpio"
+
+include: [gpio-controller.yaml, base.yaml]
+
+properties:
+  reg:
+    required: true
+
+  interrupts:
+    required: true
+
+  "#gpio-cells":
+    const: 2
+
+  rockchip,bank:
+    required: true
+    type: int
+    description: |
+      GPIO bank index used by pinctrl pinmux encoding.
+
+gpio-cells:
+  - pin
+  - flags
