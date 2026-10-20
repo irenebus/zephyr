@@ -1,0 +1,14 @@
+#include <zephyr/dt-bindings/pinctrl/rockchip-rk3588-pinctrl.h>
+
+&pinctrl {
+	spi0_m2: spi0-m2 {
+		group1 {
+			pinmux = <SPI0_CLK_M2>,
+				 <SPI0_CS0_M2>,
+				 <SPI0_MOSI_M2>,
+				 <SPI0_MISO_M2>;
+			drive-strength = <RK_DS_LEVEL_4>;
+			bias-pull-up;
+		};
+	};
+};
