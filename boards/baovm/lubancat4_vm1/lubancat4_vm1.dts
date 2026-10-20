@@ -1,0 +1,121 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ * Copyright 2026 haonan yu <yowaii47@gmail.com>
+ */
+
+/dts-v1/;
+
+#include <rockchip/rk3588s-baovm.dtsi>
+#include <common/mem.h>
+#include <zephyr/dt-bindings/gpio/gpio.h>
+#include <zephyr/dt-bindings/memory-attr/memory-attr-arm64.h>
+#include <zephyr/dt-bindings/pinctrl/rockchip-rk3588-pinctrl.h>
+
+/ {
+	model = "Baovm Lubancat4 VM1";
+	compatible = "baovm,lubancat4_vm1", "rockchip,rk3588";
+
+	chosen {
+		zephyr,console = &uart2;
+		zephyr,shell-uart = &uart2;
+		zephyr,sram = &dram0;
+		zephyr,canbus = &mcp2518fd0;
+	};
+
+	dram0: memory@3400000 {
+		compatible = "mmio-sram";
+		reg = <0x3400000 DT_SIZE_M(8)>;
+	};
+
+	/*
+	 * IPC shared memory: the top 64 KiB of DRAM, mapped by Bao into both VMs
+	 * at 0xEFFF0000 (Bao config shmem[0], place_phys).
+	 */
+	bao_ipc0: ipc@efff0000 {
+		compatible = "bao,ipcshmem";
+		reg = <0xefff0000 DT_SIZE_K(64)>;
+		rx-channel = <0x0 DT_SIZE_K(32) 32 512>;
+		tx-channel = <DT_SIZE_K(32) DT_SIZE_K(32) 32 512>;
+		id = <0>;
+		interrupts = <0 422 4 1>;
+		status = "okay";
+	};
+
+	/*
+	 * Bao RemoteIO shared memory window for the virtio-blk device.
+	 *
+	 * Bao maps this window into BOTH VMs at the same guest-physical address,
+	 * so the base must match:
+	 *   - Bao config:  remio_dev[].shmem.base  = 0xEFFE0000
+	 *   - Linux DTS:   bao-io-dispatcher reg   = 0xEFFE0000
+	 *   - Linux daemon: bao-virtio-blk -s 0xEFFE0000
+	 * The window is [0xEFFE0000, 0xEFFF0000): the first 64 KiB of the last
+	 * 128 KiB of DRAM, right above the Linux VM's RAM node (which ends at
+	 * 0xEFFE0000), right below its ipc shmem (0xEFFF0000) and peripheral
+	 * window (0xf0000000), so neither guest treats it as RAM.  It is free in
+	 * this VM's address space too.
+	 *
+	 * "zephyr,memory-region" + "zephyr,memory-attr" make the arm64 MMU
+	 * identity-map the window at boot (arch/arm64/core/mmu.c) so that the
+	 * virtqueue and bounce buffers placed here are directly addressable.
+	 */
+	reserved-memory {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		bao_virtio_shmem: memory@effe0000 {
+			compatible = "zephyr,memory-region";
+			reg = <0xeffe0000 DT_SIZE_K(64)>;
+			zephyr,memory-region = "BAO_VIRTIO_SHMEM";
+			zephyr,memory-attr = <DT_MEM_ARM64_MMU_NORMAL>;
+		};
+	};
+
+	/*
+	 * VirtIO block device, frontend side.
+	 *
+	 * All three of these must agree with the Bao config and the Linux
+	 * backend daemon:
+	 *   reg address          == Bao remio_dev[].va        == daemon -m (0x20000000)
+	 *   shmem-region base    == Bao remio_dev[].shmem.base == daemon -s (0xEFFE0000)
+	 *   interrupt            == Bao remio_dev[].interrupt  (GIC INTID 452)
+	 *
+	 * IRQ numbering: like Linux, the DT irq cell holds the raw GIC SPI
+	 * number.  Zephyr's devicetree tooling (scripts/dts/gen_defines.py,
+	 * map_arm_gic_irq_type) adds +32 for SPIs, so cell 420 becomes Zephyr
+	 * IRQ 452 == GIC INTID 452 == Bao's .interrupt field.  (Your existing
+	 * nodes follow the same rule: uart2 333 -> 365, bao_ipc0 422 -> 454.)
+	 */
+	virtio_blk0: virtio-blk@20000000 {
+		compatible = "bao,virtio-blk";
+		reg = <0x20000000 0x1000>;
+		interrupts = <GIC_SPI 420 IRQ_TYPE_LEVEL IRQ_DEFAULT_PRIORITY>;
+		disk-name = "VIRTIO";
+		shmem-region = <&bao_virtio_shmem>;
+		status = "okay";
+	};
+};
+
+&uart2 {
+	status = "okay";
+};
+
+&gpio3 {
+	status = "okay";
+};
+
+&spi0 {
+	pinctrl-0 = <&spi0_m2>;
+	pinctrl-names = "default";
+	status = "okay";
+
+	mcp2518fd0: can@0 {
+		compatible = "microchip,mcp251xfd";
+		reg = <0>;
+		spi-max-frequency = <10000000>;
+		int-gpios = <&gpio3 RK_PD4 GPIO_ACTIVE_LOW>;
+		osc-freq = <20000000>;
+		status = "disabled";
+	};
+};
