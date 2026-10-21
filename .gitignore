@@ -134,3 +134,8 @@ MPLABXLog.xml
 
 # Per-developer specific preferences for Claude Code
 CLAUDE.local.md
+
+# Local CAN bring-up artifacts
+tmplog/
+app/can-gate4/bao-*.bin
+app/can-gate4/bao-backup/
