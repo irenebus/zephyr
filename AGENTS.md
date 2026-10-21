@@ -196,3 +196,17 @@ Complete lists: `doc/contribute/style/code.rst`, `doc/contribute/coding_guidelin
   through the project's MCP server, `https://zephyrproject.mcp.kapa.ai`
   (`doc/develop/tools/kapa_ai.rst`); its answers are generated and must be verified against the
   tree.
+
+## Agent skills
+
+### Issue tracker
+
+GitHub Issues on the repo's `origin` remote, using the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+The default five roles: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+single-context: one `GLOSSARY.md` at the repo root, with architecture decisions in `docs/adr/`. See `docs/agents/domain.md`.
