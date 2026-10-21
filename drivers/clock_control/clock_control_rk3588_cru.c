@@ -30,6 +30,14 @@ struct clock_control_rk3588_data {
 static bool rk3588_cru_clk_gate_lookup(uint16_t clk_id, uint32_t *gate_off, uint8_t *gate_shift)
 {
 	switch (clk_id) {
+	case PCLK_CAN0:
+		*gate_off = RK3588_CRU_CLKGATE_CON(11);
+		*gate_shift = 8;
+		return true;
+	case CLK_CAN0:
+		*gate_off = RK3588_CRU_CLKGATE_CON(11);
+		*gate_shift = 9;
+		return true;
 	case MCLK_GMAC0_OUT:
 		*gate_off = RK3588_CRU_CLKGATE_CON(5);
 		*gate_shift = 3;
@@ -126,6 +134,10 @@ static int clock_control_rk3588_get_rate(const struct device *dev, clock_control
 	ARG_UNUSED(dev);
 
 	switch (clk_id) {
+	case CLK_CAN0:
+		/* GPLL (1188 MHz) divided by 12. */
+		*rate = 99000000U;
+		return 0;
 	case CLK_GMAC_125M:
 	case MCLK_GMAC0_OUT:
 		*rate = 125000000U;

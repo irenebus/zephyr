@@ -2,12 +2,14 @@
  * SPDX-FileCopyrightText: Copyright (c) 2026 KylinSoft Corporation
  * SPDX-License-Identifier: Apache-2.0
  *
- * RK3588 CRU clock identifiers used by the GMAC controllers.
+ * RK3588 CRU clock identifiers used by the GMAC and CAN controllers.
  */
 
 #ifndef ZEPHYR_INCLUDE_DT_BINDINGS_CLOCK_RK3588_CRU_H_
 #define ZEPHYR_INCLUDE_DT_BINDINGS_CLOCK_RK3588_CRU_H_
 
+#define PCLK_CAN0         101
+#define CLK_CAN0          102
 #define MCLK_GMAC0_OUT    248
 #define CLK_GMAC0_PTP_REF 308
 #define CLK_GMAC1_PTP_REF 309
