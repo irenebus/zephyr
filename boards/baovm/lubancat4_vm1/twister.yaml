@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: Copyright The Zephyr Project Contributors
+# SPDX-License-Identifier: Apache-2.0
+
+name: Baovm Lubancat4 VM1
+type: mcu
+arch: arm64
+toolchain:
+  - zephyr
+ram: 8192
+flash: 8192
+supported:
+  - can
+  - clock
+  - gpio
+  - reset
+  - spi
+  - uart
+vendor: baovm

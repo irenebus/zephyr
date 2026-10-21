@@ -19,7 +19,7 @@
 		zephyr,console = &uart2;
 		zephyr,shell-uart = &uart2;
 		zephyr,sram = &dram0;
-		zephyr,canbus = &mcp2518fd0;
+		zephyr,canbus = &can0;
 	};
 
 	dram0: memory@3400000 {
@@ -102,6 +102,10 @@
 };
 
 &gpio3 {
+	status = "okay";
+};
+
+&can0 {
 	status = "okay";
 };
 
