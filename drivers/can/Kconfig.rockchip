@@ -1,0 +1,22 @@
+# Rockchip CAN controller configuration
+
+# SPDX-FileCopyrightText: Copyright The Zephyr Project Contributors
+# SPDX-License-Identifier: Apache-2.0
+
+config CAN_ROCKCHIP_CANFD
+	bool "Rockchip RK3588 CAN-FD controller"
+	default y
+	depends on DT_HAS_ROCKCHIP_RK3588_CANFD_ENABLED
+	help
+	  Enable the Rockchip RK3588 CAN-FD controller driver. Only classic CAN
+	  is supported by this driver.
+
+config CAN_ROCKCHIP_CANFD_MAX_FILTERS
+	int "Maximum number of concurrent RX filters"
+	depends on CAN_ROCKCHIP_CANFD
+	default 16
+	range 1 32
+	help
+	  The controller does not provide a general purpose hardware filter
+	  list, so received frames are matched against a software filter list.
+	  This option sets the maximum number of concurrent RX filters.

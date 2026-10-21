@@ -6,6 +6,8 @@
 #include <mem.h>
 #include <arm64/armv8-a.dtsi>
 #include <zephyr/dt-bindings/interrupt-controller/arm-gic.h>
+#include <zephyr/dt-bindings/clock/rk3588-cru.h>
+#include <zephyr/dt-bindings/reset/rk3588-cru-reset.h>
 #include <zephyr/dt-bindings/pinctrl/rockchip-rk3588-pinctrl.h>
 
 / {
@@ -77,6 +79,40 @@
 		num-cs = <2>;
 		#address-cells = <1>;
 		#size-cells = <0>;
+		status = "disabled";
+	};
+
+	cru: clock-controller@fd7c0000 {
+		compatible = "rockchip,rk3588-cru";
+		/*
+		 * Only the first 4 KiB of the CRU is mapped: all clock gate and
+		 * reset registers used by this tree live in that window. Keeping
+		 * the mapping small also minimises the Bao passthrough.
+		 */
+		reg = <0xfd7c0000 0x1000>;
+		status = "okay";
+
+		cru_clk: clock-controller {
+			compatible = "rockchip,rk3588-cru-clk";
+			#clock-cells = <1>;
+			status = "okay";
+		};
+
+		cru_rst: reset-controller {
+			compatible = "rockchip,rk3588-cru-rst";
+			#reset-cells = <1>;
+			status = "okay";
+		};
+	};
+
+	can0: can@fea50000 {
+		compatible = "rockchip,rk3588-canfd";
+		reg = <0xfea50000 0x1000>;
+		interrupts = <GIC_SPI 341 IRQ_TYPE_LEVEL IRQ_DEFAULT_PRIORITY>;
+		clocks = <&cru_clk CLK_CAN0>, <&cru_clk PCLK_CAN0>;
+		clock-names = "baud", "pclk";
+		resets = <&cru_rst SRST_CAN0>, <&cru_rst SRST_P_CAN0>;
+		reset-names = "core", "apb";
 		status = "disabled";
 	};
 

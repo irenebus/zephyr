@@ -117,7 +117,12 @@
 
 	cru: clock-controller@fd7c0000 {
 		compatible = "rockchip,rk3588-cru";
-		reg = <0xfd7c0000 0x5c000>;
+		/*
+		 * Only the first 4 KiB of the CRU is mapped: all clock gate and
+		 * reset registers used by this tree live in that window. Keeping
+		 * the mapping small also minimises the Bao passthrough.
+		 */
+		reg = <0xfd7c0000 0x1000>;
 		status = "okay";
 
 		cru_clk: clock-controller {
@@ -148,6 +153,17 @@
 		interrupts = <GIC_SPI 334 IRQ_TYPE_EDGE IRQ_DEFAULT_PRIORITY>;
 		clock-frequency = <24000000>;
 		reg-shift = <2>;
+		status = "disabled";
+	};
+
+	can0: can@fea50000 {
+		compatible = "rockchip,rk3588-canfd";
+		reg = <0xfea50000 0x1000>;
+		interrupts = <GIC_SPI 341 IRQ_TYPE_LEVEL IRQ_DEFAULT_PRIORITY>;
+		clocks = <&cru_clk CLK_CAN0>, <&cru_clk PCLK_CAN0>;
+		clock-names = "baud", "pclk";
+		resets = <&cru_rst SRST_CAN0>, <&cru_rst SRST_P_CAN0>;
+		reset-names = "core", "apb";
 		status = "disabled";
 	};
 

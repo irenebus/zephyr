@@ -1,0 +1,40 @@
+# SPDX-FileCopyrightText: Copyright The Zephyr Project Contributors
+# SPDX-License-Identifier: Apache-2.0
+
+title: Rockchip RK3588 CAN-FD controller
+
+description: |
+  Rockchip RK3588 CAN-FD controller. The controller supports classic CAN and
+  CAN FD; this binding describes the controller and the driver currently
+  exposes classic CAN only.
+
+compatible: "rockchip,rk3588-canfd"
+
+include: [can-controller.yaml, reset-device.yaml]
+
+properties:
+  reg:
+    required: true
+
+  interrupts:
+    required: true
+
+  clocks:
+    required: true
+    description: |
+      CAN baud clock (first) and APB pclk (second).
+
+  clock-names:
+    required: true
+    description: |
+      Must be "baud" for the CAN baud clock and "pclk" for the APB pclk.
+
+  resets:
+    required: true
+    description: |
+      Controller reset (first) and APB reset (second).
+
+  reset-names:
+    required: true
+    description: |
+      Must be "core" for the controller reset and "apb" for the APB reset.
